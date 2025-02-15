@@ -54,7 +54,7 @@ export default function SwiperHome() {
 
 const styles = StyleSheet.create({
     containerSwiper: {
-    height: 300,
+    height: 200,
     paddingTop:10, // 🔹 Altura del swiper
   },
   card: {

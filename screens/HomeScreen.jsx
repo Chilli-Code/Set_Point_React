@@ -10,7 +10,7 @@ export default function HomeScreen({ navigation }) {
         <Header />
       {/* <Text style={styles.welcomeText}>¡Bienvenido al Home!</Text> */}
       <SwiperHome />
-      {/* <VideoList /> */}
+      <VideoList />
       <TouchableOpacity onPress={() => navigation.replace('Login')} style={styles.logoutButton}>
         <Text style={styles.logoutText}>Cerrar Sesión</Text>
       </TouchableOpacity>
