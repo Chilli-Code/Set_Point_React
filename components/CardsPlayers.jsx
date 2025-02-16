@@ -1,170 +1,167 @@
-import React, { useRef } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, Animated, Dimensions } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, Image, Text, Dimensions, ScrollView, Animated } from 'react-native';
+import styled from 'styled-components/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
-// 🔹 Lista de jugadores con imágenes de alta calidad
 const players = [
-  {
-    id: '1',
-    name: 'Alice',
-    image: 'https://images.pexels.com/photos/2889942/pexels-photo-2889942.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-  },
-  {
-    id: '2',
-    name: 'Bob',
-    image: 'https://images.unsplash.com/photo-1587918842454-870dbd18261a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=943&q=80',
-  },
-  {
-    id: '3',
-    name: 'Charlie',
-    image: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-  },
+  { id: '1', name: 'Alice', image: 'https://images.pexels.com/photos/2889942/pexels-photo-2889942.jpeg' },
+  { id: '2', name: 'Bob', image: 'https://images.unsplash.com/photo-1587918842454-870dbd18261a' },
+  { id: '3', name: 'Charlie', image: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg' },
 ];
 
-export default function PlayersSwiper() {
-  const scrollX = useRef(new Animated.Value(0)).current;
+export default function PlayerCards() {
+  const scrollViewRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 📌 Auto-scroll cada 3 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let nextIndex = (currentIndex + 1) % players.length;
+      setCurrentIndex(nextIndex);
+      scrollViewRef.current.scrollTo({ x: nextIndex * width, animated: true });
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [currentIndex]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Players</Text>
-      <Animated.FlatList
-        data={players}
-        keyExtractor={(item) => item.id}
+    <Container>
+      <TitleContainerP>
+        <StyledTitle>Jugadores🏐</StyledTitle>
+      </TitleContainerP>
+      <ScrollView
+        ref={scrollViewRef}
         horizontal
-        showsHorizontalScrollIndicator={false}
         pagingEnabled
-        snapToAlignment="center"
-        contentContainerStyle={styles.contentContainer}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        renderItem={({ item, index }) => {
-          const scale = scrollX.interpolate({
-            inputRange: [
-              (index - 1) * width * 0.7,
-              index * width * 0.7,
-              (index + 1) * width * 0.7,
-            ],
-            outputRange: [0.85, 1, 0.85],
-            extrapolate: 'clamp',
-          });
-
-          return (
-            <Animated.View style={[styles.card, { transform: [{ scale }] }]}>
-              <View style={styles.cardInner}>
-                {/* 📌 Imagen del jugador */}
-                <Image source={{ uri: item.image }} style={styles.cardImage} />
-                
-                {/* 📌 Fondo con efecto de rayas para "PLAYER" */}
-                <View style={styles.stripedOverlay}>
-                  <Text style={styles.cardRole}>PLAYER</Text>
-                </View>
-
-                {/* 📌 Nombre con fondo hexagonal */}
-                <View style={styles.cardOverlay}>
-                  <Text style={styles.name}>{item.name.toUpperCase()}</Text>
-                </View>
-              </View>
-            </Animated.View>
-          );
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={(event) => {
+          let index = Math.round(event.nativeEvent.contentOffset.x / width);
+          setCurrentIndex(index);
         }}
-      />
-    </View>
+      >
+        {players.map((player) => (
+          <Card key={player.id}>
+            <CardBackground colors={['rgba(106, 13, 173, 0.8)', 'rgba(0, 212, 255, 0.8)']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+              <PlayerImage source={{ uri: player.image }} />
+              <Overlay />
+              <TitleContainer>
+                <RoleText>PLAYER</RoleText>
+              </TitleContainer>
+              <BottomOverlay>
+                <PlayerName>{player.name.toUpperCase()}</PlayerName>
+              </BottomOverlay>
+            </CardBackground>
+          </Card>
+        ))}
+      </ScrollView>
+    </Container>
   );
 }
 
-// 🔹 **Estilos con gradientes y efectos exactos**
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  contentContainer: {
-    alignItems: 'center',
-  },
-  card: {
-    width: width * 0.7,
-    height: 450,
-    backgroundColor: 'transparent',
-    borderRadius: 20,
-    padding: 10,
-    marginHorizontal: 10,
-    shadowColor: '#6A0DAD',
-    shadowOpacity: 0.8,
-    shadowRadius: 20,
-    elevation: 10,
-  },
-  cardInner: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 15,
-    backgroundColor: '#1f1d2b',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: 10,
-    overflow: 'hidden',
-    position: 'relative',
-    borderWidth: 3,
-    borderColor: 'rgba(138, 43, 226, 0.8)',
-  },
-  cardImage: {
-    width: '100%',
-    height: '70%',
-    borderRadius: 8,
-    position: 'absolute',
-    top: 0,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-  },
-  stripedOverlay: {
-    position: 'absolute',
-    bottom: 80,
-    width: '90%',
-    height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cardRole: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    textTransform: 'uppercase',
-  },
-  cardOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    width: '90%',
-    height: 60,
-    borderRadius: 8,
-    backgroundColor: 'rgba(138, 43, 226, 0.8)',
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    shadowColor: 'rgba(106, 13, 173, 0.8)',
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
-    textTransform: 'uppercase',
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowRadius: 5,
-  },
-});
+// 📌 **Styled Components**
+const Container = styled.View`
+  flex: 1;
+  margin-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #32a7e216;
+  width: 100%;
+`;
 
+const TitleContainerP = styled.View`
+margin-bottom: 15px;
+`;
+const StyledTitle = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 0px 4px 10px rgba(255, 255, 255, 0.432);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: #32a7e2;
+`;
+
+const Card = styled.View`
+  width: ${width}px;
+  height: 450px;
+  border-radius: 15px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CardBackground = styled(LinearGradient)`
+  flex: 1;
+  width: 80%;
+  height: 100%;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+`;
+
+const PlayerImage = styled.Image`
+  width: 90%;
+  height: 75%;
+  border-radius: 12px;
+  position: absolute;
+  top: 10px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.2);
+`;
+
+const Overlay = styled.View`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+`;
+
+const TitleContainer = styled.View`
+  position: absolute;
+  bottom: 100px;
+  width: 90%;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const RoleText = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+`;
+
+const BottomOverlay = styled(LinearGradient).attrs({
+  colors: ['#00d4ff24', '#8a2be2b0', '#00d4ff24'],
+  start: { x: 0, y: 0 },
+  end: { x: 1, y: 1 },
+})`
+  width: 90%;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  bottom: 0;
+  margin-bottom:15px;
+`;
+
+
+const PlayerName = styled.Text`
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+`;

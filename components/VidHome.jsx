@@ -13,7 +13,7 @@ const initialVideoData = [
     views: '54K',
     time: '8 min',
     avatar: 'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-    videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    videoUrl: 'https://media.istockphoto.com/id/1662281654/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=AHQwzk_1VRSIsWhlR5hAQIUJ3CnElqemJ_LtzRWwJ6c=',
   },
   {
     id: '2',
@@ -22,7 +22,7 @@ const initialVideoData = [
     views: '42K',
     time: '5 min',
     avatar: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-    videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    videoUrl: 'https://media.istockphoto.com/id/1479959180/video/ld-blue-female-volleyball-team-striking-a-point-and-celebrating.mp4?s=mp4-640x640-is&k=20&c=C9exPI5XVYxFZgGMVLh_c1BKhfKZiqb88PgqZNLfwn4=',
   },
   {
     id: '3',
@@ -31,7 +31,7 @@ const initialVideoData = [
     views: '98K',
     time: '10 min',
     avatar: 'https://images.pexels.com/photos/1024311/pexels-photo-1024311.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-    videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    videoUrl: 'https://media.istockphoto.com/id/1452708598/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=uvjGRvTeFuYIcAuzR-CZXHnYZ3xA1pOt4wWN4e1pBIo=',
   },
 ];
 
@@ -104,7 +104,7 @@ export default function VideoList() {
                 <Text style={styles.videoTimeText}>{item.time}</Text>
               </View>
               <View style={styles.authorWrapper}>
-                <Icon name="check" size={16} color="#fff" style={styles.checkIcon} />
+                <Icon name="check" size={10} color="#fff" style={styles.checkIcon} />
                 <Image source={{ uri: item.avatar }} style={styles.avatar} />
               </View>
             </View>

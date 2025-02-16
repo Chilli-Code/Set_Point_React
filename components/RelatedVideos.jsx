@@ -1,44 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// 🔹 Simulación de videos relacionados
 const relatedVideos = [
-  {
-    id: '1',
-    title: 'Prepare for your first skateboard jump',
-    author: 'Jordan Wise',
-    views: '125.9K',
-    timeAgo: '2 days ago',
-    thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg',
-  },
-  {
-    id: '2',
-    title: 'Mastering advanced tricks',
-    author: 'Alex Turner',
-    views: '98K',
-    timeAgo: '1 week ago',
-    thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg',
-  },
-  {
-    id: '3',
-    title: 'Landing safely from jumps',
-    author: 'Emily Carter',
-    views: '76.4K',
-    timeAgo: '3 days ago',
-    thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg',
-  },
+  { id: '1', title: 'Prepare for your first skateboard jump', author: 'Jordan Wise', views: '125.9K', timeAgo: '2 days ago', thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg' },
+  { id: '2', title: 'Mastering advanced tricks', author: 'Alex Turner', views: '98K', timeAgo: '1 week ago', thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg' },
+  { id: '3', title: 'Landing safely from jumps', author: 'Emily Carter', views: '76.4K', timeAgo: '3 days ago', thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg' },
+  { id: '4', title: 'New Skating Techniques', author: 'Mike Daniels', views: '54.2K', timeAgo: '5 days ago', thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg' },
 ];
 
 export default function RelatedVideos() {
   const navigation = useNavigation();
+  const scrollViewRef = useRef(null); // ✅ Agrega una referencia para ScrollView
+
   const [expanded, setExpanded] = useState(true);
   const [animation] = useState(new Animated.Value(1));
 
-  // 🔹 Maneja la animación del acordeón
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 1, // ✅ Siempre expandido
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, []);
+
   const toggleExpand = () => {
     Animated.timing(animation, {
-      toValue: expanded ? 0 : 1, // Si está expandido, lo colapsa y viceversa
+      toValue: expanded ? 0 : 1,
       duration: 300,
       useNativeDriver: false,
     }).start();
@@ -47,43 +35,60 @@ export default function RelatedVideos() {
 
   return (
     <View style={styles.container}>
-      {/* 🔹 Sección de "Related Videos" que se puede tocar */}
       <TouchableOpacity onPress={toggleExpand} style={styles.header}>
         <Text style={styles.title}>Videos Relacionados</Text>
         <Text style={styles.arrow}>{expanded ? '▼' : '▲'}</Text>
       </TouchableOpacity>
 
-      {/* 🔹 Contenedor con animación de expansión */}
-      <Animated.View style={{ height: animation.interpolate({ 
-        inputRange: [0, 1], outputRange: [0, relatedVideos.length * 90] }) }}>
-        <FlatList
-          data={relatedVideos}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.videoWrapper}
-              onPress={() => navigation.navigate('InfoVideo', { video: item })}
-            >
-              <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
-              <View style={styles.videoContent}>
-                <Text style={styles.videoTitle} numberOfLines={2}>{item.title}</Text>
-                <Text style={styles.videoAuthor}>{item.author}</Text>
-                <Text style={styles.videoInfo}>{item.views} views • {item.timeAgo}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      {/* 🔹 Botón "See All Related Videos" */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Ver Mas Videos Relacionados</Text>
-      </TouchableOpacity>
+      <Animated.View
+        style={[
+          styles.animatedContainer,
+          {
+            maxHeight: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 250],
+            }),
+            opacity: animation,
+          },
+        ]}
+      >
+        {expanded && (
+          <ScrollView 
+            ref={scrollViewRef} // ✅ Asigna la referencia
+            nestedScrollEnabled={true} 
+            style={styles.scrollContainer}
+          >
+            <FlatList
+              data={relatedVideos}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false} // ✅ Evita conflicto con ScrollView
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.videoWrapper}
+                  onPress={() => navigation.navigate('InfoVideo', { video: item })}
+                >
+                  <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
+                  <View style={styles.videoContent}>
+                    <Text style={styles.videoTitle} numberOfLines={2}>{item.title}</Text>
+                    <Text style={styles.videoAuthor}>{item.author}</Text>
+                    <Text style={styles.videoInfo}>{item.views} views • {item.timeAgo}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </ScrollView>
+        )}
       </Animated.View>
 
+      {expanded && (
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Ver Más Videos Relacionados</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
-// 🔹 **Estilos optimizados**
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
@@ -106,6 +111,12 @@ const styles = StyleSheet.create({
   arrow: {
     color: '#fff',
     fontSize: 18,
+  },
+  animatedContainer: {
+    overflow: 'hidden',
+  },
+  scrollContainer: {
+    maxHeight: 200,
   },
   videoWrapper: {
     flexDirection: 'row',
@@ -143,7 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6C5ECF',
     borderRadius: 10,
     padding: 12,
-    marginTop: 16,
+    marginTop: 10,
     alignItems: 'center',
   },
   buttonText: {

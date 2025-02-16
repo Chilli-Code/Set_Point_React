@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SwiperHome from '../components/SwiperHome';
 import Header from '../components/HeaderHome';
 import VideoList from '../components/VidHome';
+import Menu from '../components/Menu';
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -11,9 +12,7 @@ export default function HomeScreen({ navigation }) {
       {/* <Text style={styles.welcomeText}>¡Bienvenido al Home!</Text> */}
       <SwiperHome />
       <VideoList />
-      <TouchableOpacity onPress={() => navigation.replace('Login')} style={styles.logoutButton}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </TouchableOpacity>
+      <Menu />
     </View>
   );
 }

@@ -34,26 +34,32 @@ export default function Header() {
       </Appbar.Header>
 
       {/* 🔹 Modal para el menú */}
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.option} onPress={() => setModalVisible(false)}>
-              <Icon name="account-circle" size={24} color="#fff" />
-              <Text style={styles.optionText}>Perfil</Text>
-            </TouchableOpacity>
+{/* 🔹 Modal para el menú */}
+<Modal
+  transparent={true}
+  animationType="slide"
+  visible={modalVisible}
+  onRequestClose={() => setModalVisible(false)}
+>
+  <TouchableOpacity 
+    style={styles.modalContainer} 
+    activeOpacity={1} 
+    onPress={() => setModalVisible(false)}
+  >
+    <View style={styles.modalContent}>
+      <TouchableOpacity style={styles.option} onPress={() => setModalVisible(false)}>
+        <Icon name="cog-outline" size={24} color="#6c5ecf" />
+        <Text style={styles.optionText}>Configuracion</Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.option} onPress={handleLogout}>
-              <Icon name="logout" size={24} color="#fff" />
-              <Text style={styles.optionText}>Cerrar sesión</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      <TouchableOpacity style={styles.option} onPress={handleLogout}>
+        <Icon name="logout" size={24} color="#6c5ecf" />
+        <Text style={styles.optionText}>Cerrar sesión</Text>
+      </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
+</Modal>
+
     </>
   );
 }

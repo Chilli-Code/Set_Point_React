@@ -1,86 +1,130 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Video } from 'expo-av';
+import React, { useState, useCallback } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { useEvent } from 'expo';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import RelatedVideos from '../components/RelatedVideos'
-import PlayersList from '../components/CardsPlayers'
+import RelatedVideos from '../components/RelatedVideos';
+import PlayersList from '../components/CardsPlayers';
 
 export default function InfoVideoScreen() {
-  const route = useRoute(); // 🔹 Obtiene los datos pasados por navegación
+  const route = useRoute();
   const navigation = useNavigation();
-  const { video } = route.params; // 🔹 Extrae el video recibido
+  const { video } = route.params;
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  // 🔹 Configuración del reproductor con expo-video
+  const player = useVideoPlayer(video.videoUrl, (player) => {
+    player.loop = false;
+  });
+
+  // 🔹 Detectar si el video está reproduciéndose o en pausa
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+
+  // 🔹 Función para refrescar la pantalla
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setVideoError(false);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
 
   return (
-    <ScrollView style={styles.container}>
-        {/* 🔹 Botón para regresar */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Icon name="arrow-left" size={24} color="#fff" />
-            <Text style={styles.backText}>Regresar</Text>
-        </TouchableOpacity>
-      {/* 🔹 Video Principal */}
-      <Video
-        source={{ uri: video.videoUrl }}
-        style={styles.video}
-        resizeMode="cover"
-        useNativeControls
-        shouldPlay
-      />
-      
-      {/* 🔹 Información del Video */}
-      <View style={styles.videoDetail}>
-        <View style={styles.videoInfo}>
-          <Image source={{ uri: video.avatar }} style={styles.avatar} />
-          <View>
-            <Text style={styles.videoTitle}>{video.title}</Text>
-            <Text style={styles.videoAuthor}>{video.author}</Text>
-          </View>
-        </View>
-        {/* 🔹 Botones */}  
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.likeButton}>
-            <Icon name="thumbs-up" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Like</Text>
-          </TouchableOpacity>
+    <FlatList
+      style={styles.container}
+      data={[{ id: '1' }, { id: '2' }]} // Para evitar errores con FlatList vacía
+      keyExtractor={(item) => item.id}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      renderItem={({ item }) => {
+        if (item.id === '1') {
+          return (
+            <>
+              {/* 🔹 Botón para regresar */}
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <Icon name="arrow-left" size={24} color="#fff" />
+                <Text style={styles.backText}>Regresar</Text>
+              </TouchableOpacity>
 
-          <TouchableOpacity style={styles.shareButton}>
-            <Icon name="share" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Compartir</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.buyButton}>
-            <Icon name="dollar-sign" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Comprar</Text>
-          </TouchableOpacity>
-        </View>
+              {/* 🔹 Video Principal */}
+              {videoError ? (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.errorText}>⚠️ No se pudo cargar el video.</Text>
+                  <TouchableOpacity onPress={onRefresh} style={styles.retryButton}>
+                    <Text style={styles.retryText}>Intentar de nuevo</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <VideoView
+                  style={styles.video}
+                  player={player}
+                  allowsFullscreen
+                  allowsPictureInPicture
+                  onError={() => setVideoError(true)}
+                />
+              )}
 
+              {/* 🔹 Controles de reproducción */}
 
-        <Text style={styles.videoDescription}>
-          📌 Informacion basica y datos de el partido{' '}
-          <Icon name="award" size={18} color="#fff" />
-        </Text>
+            </>
+          );
+        }
 
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus illum 
-          tempora consequuntur. Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Debitis earum velit accusantium maiores qui sit quas, laborum voluptatibus vero 
-          quidem tempore facilis voluptate tempora deserunt!
-        </Text>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus illum 
-          tempora consequuntur. Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Debitis earum velit accusantium maiores qui sit quas, laborum voluptatibus vero 
-          quidem tempore facilis voluptate tempora deserunt!
-        </Text>
-      </View>
+        if (item.id === '2') {
+          return (
+            <View style={styles.videoDetail}>
+              <View style={styles.videoInfo}>
+                <Image source={{ uri: video.avatar }} style={styles.avatar} />
+                <View>
+                  <Text style={styles.videoTitle}>{video.title}</Text>
+                  <Text style={styles.videoAuthor}>{video.author}</Text>
+                </View>
+              </View>
 
-      <RelatedVideos />
-      <PlayersList />
-    </ScrollView>
+              {/* 🔹 Botones */}
+              <View style={styles.buttonWrapper}>
+                <TouchableOpacity style={styles.likeButton}>
+                  <Icon name="thumbs-up" size={20} color="#fff" />
+                  <Text style={styles.buttonText}>Like</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.shareButton}>
+                  <Icon name="share" size={20} color="#fff" />
+                  <Text style={styles.buttonText}>Compartir</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buyButton}>
+                  <Icon name="dollar-sign" size={20} color="#fff" />
+                  <Text style={styles.buttonText}>Comprar</Text>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.videoDescription}>
+                📌 Información básica y datos del partido{' '}
+                <Icon name="award" size={18} color="#fff" />
+              </Text>
+
+              <Text style={styles.description}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus illum tempora
+                consequuntur.
+              </Text>
+            </View>
+          );
+        }
+      }}
+      ListFooterComponent={
+        <>
+          <RelatedVideos />
+          <PlayersList />
+        </>
+      }
+    />
   );
 }
 
-// 🔹 Estilos
+// 🔹 **Estilos**
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -90,13 +134,28 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 250,
   },
+  controlsContainer: {
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  // controlButton: {
+  //   backgroundColor: '#6c5ecf',
+  //   paddingVertical: 10,
+  //   paddingHorizontal: 20,
+  //   borderRadius: 8,
+  // },
+  controlText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   videoDetail: {
     padding: 16,
   },
   videoInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   avatar: {
     width: 50,
@@ -144,9 +203,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginRight: 10,
-    
   },
-  buyButton:{
+  buyButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#0ed640',
@@ -162,10 +220,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
+    marginLeft: 6,
+    marginBottom: 10,
   },
   backText: {
     color: '#fff',
     marginLeft: 5,
     fontSize: 16,
+  },
+  errorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 250,
+  },
+  errorText: {
+    color: '#ff4444',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  retryButton: {
+    backgroundColor: '#ff7551',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  retryText: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
