@@ -65,9 +65,9 @@ export default function Menu() {
 
 // 🔹 Opciones del menú con rutas
 const menuItems = [
-  { name: 'Home', icon: 'home-outline', color: '#f44336', route: 'Home' },
+  { name: 'Home', icon: 'home-outline', color: '#6C5ECF', route: 'Home' },
   { name: 'Videos', icon: 'videocam-outline', color: '#ffa117', route: 'Videos' },
-  { name: 'Perfil', icon: 'person-outline', color: '#0fc70f', route: 'Perfil' },
+  { name: 'Perfil', icon: 'person-outline', color: '#34bfff', route: 'Perfil' },
 ];
 
 // 📌 **Styled Components**

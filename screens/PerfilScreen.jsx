@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Menu from '../components/Menu';
+import ProfileWithSkills  from '../components/InfoPerfil';
+import ClipsPerfil from '../components/ClipsPerfil';
 
 export default function PerfilScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pantalla Perfil Usuario</Text>
+      <ProfileWithSkills />
+      <ClipsPerfil />
       <Menu />
     </View>
   );
@@ -14,9 +17,8 @@ export default function PerfilScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#1f1d2b',
   },
   title: {
     color: '#fff',

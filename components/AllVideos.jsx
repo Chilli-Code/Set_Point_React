@@ -24,7 +24,7 @@ export default function AllVideos() {
             views: '54K',
             time: '8 min',
             avatar: 'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            videoUrl: 'https://media.istockphoto.com/id/1662281654/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=AHQwzk_1VRSIsWhlR5hAQIUJ3CnElqemJ_LtzRWwJ6c=',
+            videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           },
           {
             id: '2',

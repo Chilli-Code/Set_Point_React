@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 15,
     borderRadius: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor:"#0f0",
+    backgroundColor: 'rgba(255, 255, 255, 0.932)',
     color: '#fff',
   },
   forgotPasswordContainer: {
