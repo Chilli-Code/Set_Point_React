@@ -11,9 +11,6 @@ export default function VideosScreen() {
   return (
     <View style={styles.container}>
       <Header />
-
-
-
       <Text style={styles.title}>Todos Nuestros Videos</Text>
       <AllVideos />
       <Menu />

@@ -11,7 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import InfoVideoScreen from './screens/InfoVideo';
 import VideosScreen from './screens/VideosScreen';
 import PerfilScreen from './screens/PerfilScreen';
-
+import SettingsScreen from './screens/SettingsScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -26,6 +26,7 @@ export default function App() {
           <Stack.Screen name="Videos" component={VideosScreen} />
           <Stack.Screen name="Perfil" component={PerfilScreen} />
           <Stack.Screen name="InfoVideo" component={InfoVideoScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </View>
     </NavigationContainer>

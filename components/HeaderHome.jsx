@@ -47,9 +47,15 @@ export default function Header() {
     onPress={() => setModalVisible(false)}
   >
     <View style={styles.modalContent}>
-      <TouchableOpacity style={styles.option} onPress={() => setModalVisible(false)}>
-        <Icon name="cog-outline" size={24} color="#6c5ecf" />
-        <Text style={styles.optionText}>Configuracion</Text>
+    <TouchableOpacity
+        style={styles.option}
+        onPress={() => {
+          setModalVisible(false);  // Cierra el modal
+          navigation.navigate("Settings");  // Navega a la pantalla de configuración
+        }}
+      >
+        <Icon name="settings" size={24} color="#6c5ecf" />
+        <Text style={styles.optionText}>Configuración</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.option} onPress={handleLogout}>
