@@ -54,7 +54,7 @@ export default function Header() {
           navigation.navigate("Settings");  // Navega a la pantalla de configuración
         }}
       >
-        <Icon name="settings" size={24} color="#6c5ecf" />
+        <Icon name="cogs" size={24} color="#6c5ecf" />
         <Text style={styles.optionText}>Configuración</Text>
       </TouchableOpacity>
 
@@ -102,7 +102,7 @@ userContainer: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    marginRight:6,
+    marginRight:11,
   },
   modalContainer: {
     flex: 1,

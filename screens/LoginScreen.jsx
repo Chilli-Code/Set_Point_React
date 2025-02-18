@@ -8,8 +8,8 @@ import {
   ImageBackground,
   StyleSheet,
   Animated,
-  Alert,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 // 🔹 Simulación de base de datos JSON de usuarios
 const users = [
@@ -22,6 +22,8 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [welcomeText, setWelcomeText] = useState('');
 
   const titleAnimation = useState(new Animated.Value(0))[0];
   const fadeAnimation = useState(new Animated.Value(0))[0];
@@ -46,10 +48,14 @@ export default function LoginScreen() {
     const userFound = users.find(user => user.email === email && user.password === password);
 
     if (userFound) {
-      Alert.alert('¡Bienvenido!', `Has iniciado sesión como ${email}`);
-      navigation.replace('Home'); // 🔹 Navega al Home y elimina el login del stack
+      setIsLoading(true);
+      setWelcomeText(`Bienvenido\n${email}`);
+
+      setTimeout(() => {
+        navigation.replace('Home');
+      }, 3000);
     } else {
-      Alert.alert('Error', 'Correo o contraseña incorrectos');
+      alert('Correo o contraseña incorrectos');
     }
   };
 
@@ -57,49 +63,67 @@ export default function LoginScreen() {
     <ImageBackground source={require('../assets/Fondo_Login.jpg')} style={styles.background}>
       <View style={styles.overlay} />
 
-      <Animated.View style={[styles.titleContainer, { transform: [{ translateY: titleAnimation }] }]}>
-        <Text style={styles.title}>Set Points</Text>
-      </Animated.View>
-
-      {/* 🔹 Formulario en la parte inferior */}
-      <Animated.View style={[styles.formContainer, { opacity: fadeAnimation }]}>
-        <Text style={styles.formTitle}>Iniciar Sesión</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#fff"
-          onChangeText={setEmail}
-          value={email}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#fff"
-          secureTextEntry
-          onChangeText={setPassword}
-          value={password}
-        />
-
-        <TouchableOpacity style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableOpacity>
-
-        <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>¿No tienes cuenta?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.registerLink}> Registrate</Text>
-          </TouchableOpacity>
+      {isLoading ? (
+        <View style={styles.welcomeContainer}>
+          {/* 🔹 Contenedor con fondo y bordes redondeados */}
+          <View style={styles.welcomeBox}>
+            <Text style={styles.welcomeText}>{welcomeText}</Text>
+            <LottieView
+              source={require('../assets/welcome-animation.json')}
+              autoPlay
+              loop={false}
+              style={styles.animation}
+            />
+          </View>
         </View>
-      </Animated.View>
+      ) : (
+        <>
+          <Animated.View style={[styles.titleContainer, { transform: [{ translateY: titleAnimation }] }]}>
+            <Text style={styles.title}>Set Points</Text>
+          </Animated.View>
+
+          {/* 🔹 Formulario de inicio de sesión */}
+          <Animated.View style={[styles.formContainer, { opacity: fadeAnimation }]}>
+            <Text style={styles.formTitle}>Iniciar Sesión</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#fff"
+              onChangeText={setEmail}
+              value={email}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#fff"
+              secureTextEntry
+              onChangeText={setPassword}
+              value={password}
+            />
+
+            <TouchableOpacity style={styles.forgotPasswordContainer}>
+              <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>¿No tienes cuenta?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.registerLink}> Registrate</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </>
+      )}
     </ImageBackground>
   );
 }
 
+// 📌 **Estilos**
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -116,11 +140,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 50,
-    fontFamily: 'Sports World-Regular',
+    fontFamily: 'Arial',
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#F8F8F8',
     textAlign: 'center',
-    letterSpacing: 2,
+    letterSpacing: 3,
+    textTransform: 'uppercase',
+    textShadowColor: '#6C5ECF',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 8,
   },
   formContainer: {
     width: '100%',
@@ -143,8 +171,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 15,
     borderRadius: 30,
-    borderColor:"#0f0",
-    backgroundColor: 'rgba(255, 255, 255, 0.932)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     color: '#fff',
   },
   forgotPasswordContainer: {
@@ -180,4 +207,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  // 🔹 Estilos del mensaje de bienvenida y animación
+  welcomeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  welcomeBox: {
+    backgroundColor: 'rgba(0, 0, 0, 0.11)',
+    padding: 20,
+    borderRadius: 20,
+    alignItems: 'center',
+    width: "100%",
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#34bfff',
+    marginBottom: 15,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  animation: {
+    width: 400,
+    height: 400,
+  },
 });
+

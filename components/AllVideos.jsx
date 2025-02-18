@@ -23,6 +23,7 @@ export default function AllVideos() {
             author: 'Andy William',
             views: '54K',
             time: '8 min',
+            imgPreview: 'https://images.pexels.com/photos/6203514/pexels-photo-6203514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             avatar: 'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
             videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           },
@@ -32,6 +33,7 @@ export default function AllVideos() {
             author: 'Gerard Bind',
             views: '42K',
             time: '5 min',
+            imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
             avatar: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
             videoUrl: 'https://media.istockphoto.com/id/1479959180/video/ld-blue-female-volleyball-team-striking-a-point-and-celebrating.mp4?s=mp4-640x640-is&k=20&c=C9exPI5XVYxFZgGMVLh_c1BKhfKZiqb88PgqZNLfwn4=',
           },
@@ -41,6 +43,7 @@ export default function AllVideos() {
             author: 'Jane Doe',
             views: '98K',
             time: '10 min',
+            imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
             avatar: 'https://images.pexels.com/photos/1024311/pexels-photo-1024311.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
             videoUrl: 'https://media.istockphoto.com/id/1452708598/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=uvjGRvTeFuYIcAuzR-CZXHnYZ3xA1pOt4wWN4e1pBIo=',
           },
@@ -94,19 +97,17 @@ export default function AllVideos() {
           renderItem={({ item }) => (
             <View style={styles.videoCard}>
               <View style={styles.videoWrapper}>
-                <Video
-                  source={{ uri: item.videoUrl }}
-                  style={styles.video}
-                  resizeMode="cover"
-                  isLooping={false}
-                  isMuted
-                  shouldPlay={false}
-                  useNativeControls={false}
-                />
+              <Image
+  source={{ uri: item.imgPreview }}
+  style={styles.video}
+  resizeMode="cover"
+/>
+
                 <View style={styles.videoTime}>
                   <Text style={styles.videoTimeText}>{item.time}</Text>
                 </View>
                 <View style={styles.authorWrapper}>
+              <Icon name="check" size={10} color="#fff" style={styles.checkIcon} />
                   <Image source={{ uri: item.avatar }} style={styles.avatar} />
                 </View>
               </View>
@@ -194,6 +195,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
   },
+  checkIcon: {
+    backgroundColor: '#0aa0f7',
+    borderRadius: 50,
+    padding: 2,
+    marginRight: -10,
+    zIndex: 1,
+  },
+  authorWrapper: {
+    position: 'absolute',
+    bottom: -15,
+    right: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   avatar: {
     width: 30,
     height: 30,
