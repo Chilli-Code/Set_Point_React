@@ -12,10 +12,12 @@ import InfoVideoScreen from './screens/InfoVideo';
 import VideosScreen from './screens/VideosScreen';
 import PerfilScreen from './screens/PerfilScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import {ThemeProvider} from './context/ThemeContext';
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+      <ThemeProvider>
     <NavigationContainer>
       <View style={styles.container}>
         <StatusBar style="auto" />
@@ -30,6 +32,7 @@ export default function App() {
         </Stack.Navigator>
       </View>
     </NavigationContainer>
+      </ThemeProvider>
   );
 }
 

@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, TouchableOp
 import { useNavigation } from '@react-navigation/native';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/Feather';
-
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import {useTheme} from '../context/ThemeContext';
 // 🔹 Datos simulados iniciales (Solo los primeros 10)
 const initialVideoData = [
   {
@@ -58,6 +59,7 @@ const fetchMoreVideos = async (page) => {
 };
 
 export default function VideoList() {
+  const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
   const navigation = useNavigation();
   const videoRefs = useRef({});
   const [videos, setVideos] = useState(initialVideoData);
@@ -76,8 +78,8 @@ export default function VideoList() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>
-        Últimos Partidos <Icon name="video" size={24} color="#fff" />
+      <Text style={[styles.header, { color: theme.textTittle }]}>
+        Últimos Partidos <FontAwesome5  name="video" size={24} color={theme.textTittle} />
       </Text>
 
       <FlatList
@@ -92,7 +94,7 @@ export default function VideoList() {
         onEndReachedThreshold={0.3} // 🔹 Carga más videos antes de que el usuario llegue al final
         ListFooterComponent={loadingMore ? <ActivityIndicator size="large" color="#fff" /> : null}
         renderItem={({ item }) => (
-          <View style={styles.videoCard}>
+          <View style={[styles.videoCard, { backgroundColor: theme.cardVideo }]}>
             <View style={styles.videoWrapper}>
               <Image source={{ uri: item.imgPreview }} style={styles.video} />
               <View style={styles.videoTime}>
@@ -105,7 +107,7 @@ export default function VideoList() {
             </View>
 
             <Text style={styles.videoAuthor}>{item.author}</Text>
-            <Text style={styles.videoTitle}>{item.title}</Text>
+            <Text style={[styles.videoTitle, {color: theme.text}]}>{item.title}</Text>
             <Text style={styles.videoViews}>{item.views} views • 1 week ago</Text>
 
             {/* 🔹 BOTÓN DE OJO PARA NAVEGAR A INFO VIDEO */}
@@ -134,8 +136,8 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: '500',
-    color: '#fff',
     marginVertical: 20,
+    paddingHorizontal: 10,
   },
   row: {
     justifyContent: 'space-between',

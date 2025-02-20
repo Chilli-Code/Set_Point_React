@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Video } from 'expo-av';
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme } from '../context/ThemeContext';
 
 export default function AllVideos() {
+  const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
+
   const navigation = useNavigation();
   const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideos] = useState([]);
@@ -19,7 +23,7 @@ export default function AllVideos() {
         const fetchedVideos = [
           {
             id: '1',
-            title: 'Cómo hacer saltos básicos y aterrizar de forma segura',
+            title: 'Cómo hacer saltos básicos y aterrizar de forma segura sadsdasdadsadsada',
             author: 'Andy William',
             views: '54K',
             time: '8 min',
@@ -72,12 +76,12 @@ export default function AllVideos() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* 🔹 Barra de búsqueda */}
-      <View style={styles.searchBar}>
+      <View style={[styles.searchBar, {backgroundColor: theme.inputColor}]}>
         <Icon name="search" size={18} color="#717790" style={styles.searchIcon} />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: theme.text }]}
           placeholder="Search"
           placeholderTextColor="#717790"
           value={search}
@@ -87,7 +91,7 @@ export default function AllVideos() {
 
       {/* 🔹 Indicador de carga */}
       {loading ? (
-        <ActivityIndicator size="large" color="#fff" style={{ marginTop: 20 }} />
+        <ActivityIndicator size="large" color={theme.text} style={{ marginTop: 20 }} />
       ) : (
         <FlatList
           data={filteredVideos}
@@ -95,7 +99,7 @@ export default function AllVideos() {
           numColumns={2}
           columnWrapperStyle={styles.row}
           renderItem={({ item }) => (
-            <View style={styles.videoCard}>
+            <View style={[styles.videoCard, { backgroundColor: theme.cardVideo }]}>
               <View style={styles.videoWrapper}>
               <Image
   source={{ uri: item.imgPreview }}
@@ -113,7 +117,7 @@ export default function AllVideos() {
               </View>
 
               <Text style={styles.videoAuthor}>{item.author}</Text>
-              <Text style={styles.videoTitle}>{item.title}</Text>
+              <Text style={[styles.videoTitle, {color: theme.text}]}>{item.title}</Text>
               <Text style={styles.videoViews}>{item.views} views • 1 week ago</Text>
 
               {/* 🔹 BOTÓN DE OJO PARA NAVEGAR A INFO VIDEO */}

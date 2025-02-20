@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import Menu from '../components/Menu';
 import ProfileWithSkills  from '../components/InfoPerfil';
 import ClipsPerfil from '../components/ClipsPerfil';
+import { useTheme } from '../context/ThemeContext';
 
 export default function PerfilScreen() {
+  const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <ProfileWithSkills />
       <ClipsPerfil />
       <Menu />

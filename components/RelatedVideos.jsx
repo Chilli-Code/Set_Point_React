@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../context/ThemeContext';
 
 const relatedVideos = [
   { id: '1', title: 'Prepare for your first skateboard jump', author: 'Jordan Wise', views: '125.9K', timeAgo: '2 days ago', thumbnail: 'https://cdn.nohat.cc/thumb/f/720/3b55eddcfffa4e87897d.jpg' },
@@ -10,6 +11,8 @@ const relatedVideos = [
 ];
 
 export default function RelatedVideos() {
+  const {darkMode, toggleTheme, theme} = useTheme(); // ⬅ Ahora usamos el tema
+
   const navigation = useNavigation();
   const scrollViewRef = useRef(null); // ✅ Agrega una referencia para ScrollView
 
@@ -35,9 +38,9 @@ export default function RelatedVideos() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleExpand} style={styles.header}>
-        <Text style={styles.title}>Videos Relacionados</Text>
-        <Text style={styles.arrow}>{expanded ? '▼' : '▲'}</Text>
+      <TouchableOpacity onPress={toggleExpand} style={[styles.header, {backgroundColor: theme.RelatedColor}]}>
+        <Text style={[styles.title, {color: theme.textBox}]}>Videos Relacionados</Text>
+        <Text style={[styles.arrow, {color: theme.textBox}]}>{expanded ? '▼' : '▲'}</Text>
       </TouchableOpacity>
 
       <Animated.View
@@ -64,12 +67,12 @@ export default function RelatedVideos() {
               scrollEnabled={false} // ✅ Evita conflicto con ScrollView
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={styles.videoWrapper}
+                  style={[styles.videoWrapper, {backgroundColor: theme.cardVideo}]}
                   onPress={() => navigation.navigate('InfoVideo', { video: item })}
                 >
                   <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
                   <View style={styles.videoContent}>
-                    <Text style={styles.videoTitle} numberOfLines={2}>{item.title}</Text>
+                    <Text style={[styles.videoTitle, {color: theme.text}]} numberOfLines={2}>{item.title}</Text>
                     <Text style={styles.videoAuthor}>{item.author}</Text>
                     <Text style={styles.videoInfo}>{item.views} views • {item.timeAgo}</Text>
                   </View>
@@ -82,7 +85,7 @@ export default function RelatedVideos() {
 
       {expanded && (
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Ver Más Videos Relacionados</Text>
+          <Text style={styles.buttonText}>Ver Más Videos</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#252936',
+    
     borderRadius: 10,
   },
   title: {
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   scrollContainer: {
-    maxHeight: 200,
+    maxHeight: 300,
   },
   videoWrapper: {
     flexDirection: 'row',

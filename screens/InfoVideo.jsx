@@ -6,8 +6,10 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import RelatedVideos from '../components/RelatedVideos';
 import PlayersList from '../components/CardsPlayers';
+import {useTheme} from '../context/ThemeContext';
 
 export default function InfoVideoScreen() {
+    const { darkMode, toggleTheme, theme } = useTheme(); // Obtener estado del tema global
   const route = useRoute();
   const navigation = useNavigation();
   const { video } = route.params;
@@ -34,7 +36,7 @@ export default function InfoVideoScreen() {
 
   return (
     <FlatList
-      style={styles.container}
+      style={[styles.container, {backgroundColor: theme.background}]}
       data={[{ id: '1' }, { id: '2' }]} // Para evitar errores con FlatList vacía
       keyExtractor={(item) => item.id}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -44,8 +46,8 @@ export default function InfoVideoScreen() {
             <>
               {/* 🔹 Botón para regresar */}
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                <Icon name="arrow-left" size={24} color="#fff" />
-                <Text style={styles.backText}>Regresar</Text>
+                <Icon name="arrow-left" size={24} color={theme.text} />
+                <Text style={[styles.backText, {color: theme.text}]}>Regresar</Text>
               </TouchableOpacity>
 
               {/* 🔹 Video Principal */}
@@ -77,9 +79,9 @@ export default function InfoVideoScreen() {
             <View style={styles.videoDetail}>
               <View style={styles.videoInfo}>
                 <Image source={{ uri: video.avatar }} style={styles.avatar} />
-                <View>
-                  <Text style={styles.videoTitle}>{video.title}</Text>
-                  <Text style={styles.videoAuthor}>{video.author}</Text>
+                <View style={{ paddingRight: 20 }}>
+                  <Text style={[styles.videoTitle, {color: theme.text}]}>{video.title}</Text>
+                  <Text style={[styles.videoAuthor, {color: theme.text}]}>{video.author}</Text>
                 </View>
               </View>
 
@@ -101,9 +103,9 @@ export default function InfoVideoScreen() {
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.videoDescription}>
+              <Text style={[styles.videoDescription, {color: theme.text}]}>
                 📌 Información básica y datos del partido{' '}
-                <Icon name="award" size={18} color="#fff" />
+                <Icon name="award" size={18} color={theme.text} />
               </Text>
 
               <Text style={styles.description}>
@@ -156,6 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
+    marginRight: 20,
   },
   avatar: {
     width: 50,

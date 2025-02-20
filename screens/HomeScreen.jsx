@@ -4,10 +4,12 @@ import SwiperHome from '../components/SwiperHome';
 import Header from '../components/HeaderHome';
 import VideoList from '../components/VidHome';
 import Menu from '../components/Menu';
+import { useTheme } from '../context/ThemeContext';
 
 export default function HomeScreen({ navigation }) {
+  const {theme } = useTheme();
   return (
-    <View style={styles.container}>
+    <View  style={[styles.container, { backgroundColor: theme.background }]}>
         <Header />
       {/* <Text style={styles.welcomeText}>¡Bienvenido al Home!</Text> */}
       <SwiperHome />
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1f1d2b',
+    // backgroundColor: '#1f1d2b',
   },
   welcomeText: {
     fontSize: 24,

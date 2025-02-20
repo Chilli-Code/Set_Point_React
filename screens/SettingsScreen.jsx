@@ -1,71 +1,74 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Switch, ScrollView, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import { useTheme } from "../context/ThemeContext"; // 🔹 Importar el contexto del tema
 
 export default function SettingsScreen() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState(true);
-  const [sounds, setSounds] = useState(true);
-
+  const { darkMode, toggleTheme, theme } = useTheme(); // Obtener estado del tema global
   return (
-    <View style={[styles.container, darkMode && styles.darkBackground]}>
-      <Text style={styles.title}>Configuración</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Configuración</Text>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* 🔹 Modo Oscuro */}
-        <View style={styles.settingRow}>
-          <Icon name="moon" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Modo oscuro</Text>
-          <Switch value={darkMode} onValueChange={() => setDarkMode(!darkMode)} />
+        <View style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]}>
+          <Icon name="moon" size={22} color={theme.primary} />
+          <Text style={[styles.settingText, { color: theme.text }]}>Modo oscuro</Text>
+          <Switch value={darkMode} onValueChange={toggleTheme} />
         </View>
 
         {/* 🔹 Notificaciones */}
-        <View style={styles.settingRow}>
-          <Icon name="bell" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Notificaciones</Text>
-          <Switch value={notifications} onValueChange={() => setNotifications(!notifications)} />
+        <View style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]}>
+          <Icon name="bell" size={22} color={theme.primary} />
+          <Text style={[styles.settingText, { color: theme.text }]}>Notificaciones</Text>
+          <Switch value={true} onValueChange={() => {}} />
         </View>
 
         {/* 🔹 Sonidos */}
-        <View style={styles.settingRow}>
-          <Icon name="volume-2" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Sonidos</Text>
-          <Switch value={sounds} onValueChange={() => setSounds(!sounds)} />
+        <View style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]}>
+          <Icon name="volume-2" size={22} color={theme.primary} />
+          <Text style={[styles.settingText, { color: theme.text }]}>Sonidos</Text>
+          <Switch value={true} onValueChange={() => {}} />
         </View>
 
         {/* 🔹 Privacidad y Seguridad */}
-        <TouchableOpacity style={styles.settingRow} onPress={() => console.log("Ir a Privacidad")}>
-          <Icon name="lock" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Privacidad y seguridad</Text>
-          <Icon name="chevron-right" size={22} color="#717790" />
+        <TouchableOpacity style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]}>
+          <Icon name="lock" size={22} color={theme.primary} />
+          <Text style={[styles.settingText, { color: theme.text }]}>Privacidad y seguridad</Text>
+          <Icon name="chevron-right" size={22} color={theme.text} />
         </TouchableOpacity>
 
+
+
         {/* 🔹 Redes Sociales */}
-        <TouchableOpacity style={styles.settingRow} onPress={() => console.log("Ir a Redes Sociales")}>
+        <TouchableOpacity  style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]}  onPress={() => console.log("Ir a Redes Sociales")}>
           <Icon name="share-2" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Redes sociales</Text>
-          <Icon name="chevron-right" size={22} color="#717790" />
+          <Text style={[styles.settingText, { color: theme.text }]}>Redes sociales</Text>
+          <Icon name="chevron-right" size={22} color={theme.text} />
         </TouchableOpacity>
 
         {/* 🔹 Centro de Ayuda */}
-        <TouchableOpacity style={styles.settingRow} onPress={() => console.log("Ir al Centro de Ayuda")}>
+        <TouchableOpacity style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]} onPress={() => console.log("Ir al Centro de Ayuda")}>
           <Icon name="help-circle" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Centro de ayuda</Text>
-          <Icon name="chevron-right" size={22} color="#717790" />
+          <Text style={[styles.settingText, { color: theme.text }]}>Centro de ayuda</Text>
+          <Icon name="chevron-right" size={22} color={theme.text} />
         </TouchableOpacity>
 
         {/* 🔹 Términos y Condiciones */}
-        <TouchableOpacity style={styles.settingRow} onPress={() => console.log("Ir a Términos y Condiciones")}>
+        <TouchableOpacity style={[styles.settingRow, { backgroundColor: theme.RelatedColor }]} onPress={() => console.log("Ir a Términos y Condiciones")}>
           <Icon name="file-text" size={22} color="#34bfff" />
-          <Text style={styles.settingText}>Términos y condiciones</Text>
-          <Icon name="chevron-right" size={22} color="#717790" />
+          <Text style={[styles.settingText, { color: theme.text }]}>Términos y condiciones</Text>
+          <Icon name="chevron-right" size={22} color={theme.text} />
         </TouchableOpacity>
 
+      </ScrollView>
         {/* 🔹 Número de Versión */}
         <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>Versión 1.0.0</Text>
+          <Text style={[styles.versionText, { color: theme.text }]}>© Copyright 2025</Text>
+          <Text style={{color:"#6c5ecf", paddingLeft:8, fontWeight:'bold'}}>Keku Enterprise</Text>
+          <Text style={[styles.versionText, { color: theme.text, paddingLeft:8}]}>Versión 1.0.0</Text>
+
         </View>
-      </ScrollView>
     </View>
   );
 }
@@ -74,27 +77,21 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1f1d2b",
     paddingHorizontal: 20,
     paddingTop: 50,
-  },
-  darkBackground: {
-    backgroundColor: "#121212",
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#34bfff",
-    marginBottom: 20,
-    textAlign: "center",
   },
   scrollContainer: {
     paddingBottom: 30,
   },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#252936",
     padding: 15,
     borderRadius: 8,
     marginBottom: 12,
@@ -102,16 +99,19 @@ const styles = StyleSheet.create({
   settingText: {
     flex: 1,
     fontSize: 16,
-    color: "#fff",
     marginLeft: 15,
   },
   versionContainer: {
-    marginTop: 20,
-    alignItems: "center",
+    marginBottom: 20,
+    display: "flex",
+    flexDirection: "row", // 🔹 Poner los elementos en fila
+    width: "100%",
+    justifyContent: "center", // 🔹 Centrar los elementos horizontalmente
+    alignItems: "center", // 🔹 Alinear en el centro verticalmente
+    flexWrap: "wrap", // 🔹 Evita que el texto se salga de la pantalla
   },
+  
   versionText: {
-    color: "#717790",
     fontSize: 14,
   },
 });
-

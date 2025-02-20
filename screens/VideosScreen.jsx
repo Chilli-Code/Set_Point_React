@@ -4,14 +4,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Menu from '../components/Menu';
 import Header from '../components/HeaderHome';
 import AllVideos from '../components/AllVideos';
+import { useTheme } from '../context/ThemeContext';
+
 
 export default function VideosScreen() {
+    const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
   const [search, setSearch] = useState('');
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.headerBack}]}>
       <Header />
-      <Text style={styles.title}>Todos Nuestros Videos</Text>
+      <Text style={[styles.title, {color: theme.textTittle}]}>Todos Nuestros Videos</Text>
       <AllVideos />
       <Menu />
     </View>
