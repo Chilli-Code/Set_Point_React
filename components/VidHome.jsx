@@ -9,8 +9,8 @@ import {useTheme} from '../context/ThemeContext';
 const initialVideoData = [
   {
     id: '1',
-    title: 'Cómo hacer saltos básicos y aterrizar de forma segura',
-    author: 'Andy William',
+    title: 'Final - Club Águilas vs. Titanes Vóley',
+    author: 'Liga Nacional de Vóley',
     views: '54K',
     time: '8 min',
     imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
@@ -19,8 +19,8 @@ const initialVideoData = [
   },
   {
     id: '2',
-    title: 'Prepare for your first skateboard jump',
-    author: 'Gerard Bind',
+    title: 'Semifinal - Toros Vóley vs. Guerreros de la Arena',
+    author: 'Torneo Internacional de Vóley',
     views: '42K',
     time: '5 min',
     imgPreview: 'https://images.pexels.com/photos/6203514/pexels-photo-6203514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -29,8 +29,8 @@ const initialVideoData = [
   },
   {
     id: '3',
-    title: 'Domina los trucos avanzados',
-    author: 'Jane Doe',
+    title: 'Cuartos de Final - Panteras vs. Halcones del Sur',
+    author: 'Campeonato Nacional de Vóley',
     views: '98K',
     time: '10 min',
     imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',

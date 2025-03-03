@@ -13,40 +13,32 @@ export default function SwiperHome() {
         activeDotStyle={styles.activeDot}
       >
         {/* 🔹 Tarjeta 1 */}
-        <ImageBackground source={require('../assets/Slider1.webp')} style={styles.card}>
-          <Text style={styles.title}>Cómo hacer saltos básicos y aterrizar de forma segura</Text>
+        <ImageBackground source={require('../assets/SliderHome/Slider1.webp')} style={styles.card}>
+        {/* Capa de opacidad */}
+          <View style={styles.overlay} />
+          <Text style={styles.title}>Domina los fundamentos del voleibol</Text>
           <View style={styles.footer}>
-            <Image
-              source={{ uri: 'https://via.placeholder.com/150' }}
-              style={styles.avatar}
-            />
-            <Text style={styles.views}>53K vistas</Text>
+          <Text style={styles.subtitle}>Aprende técnicas básicas como el saque, bloqueo y remate.</Text>
           </View>
         </ImageBackground>
 
         {/* 🔹 Tarjeta 2 */}
-        <ImageBackground  source={require('../assets/Slider2.jpg')} style={[styles.card, { backgroundColor: '#FF8C00' }]}>
-          <Text style={styles.title}>Consejos de skate que debes saber</Text>
+        <ImageBackground  source={require('../assets/SliderHome/Slider2.png')} style={[styles.card, { backgroundColor: '#FF8C00' }]}>
+          <View style={styles.overlay} />
+          <Text style={styles.title}>Lleva tu juego al siguiente nivel</Text>
           <View style={styles.footer}>
-            <Image
-              source={{ uri: 'https://via.placeholder.com/150' }}
-              style={styles.avatar}
-            />
-            <Text style={styles.views}>32K vistas</Text>
+          <Text style={styles.subtitle}>Descubre estrategias avanzadas y ejercicios para mejorar tu rendimiento en la cancha.</Text>
           </View>
         </ImageBackground>
 
         {/* 🔹 Tarjeta 3 */}
-        <View style={[styles.card, { backgroundColor: '#28A745' }]}>
-          <Text style={styles.title}>Técnicas avanzadas para patinadores expertos</Text>
+        <ImageBackground source={require('../assets/SliderHome/Slider3.png')} style={[styles.card, { backgroundColor: '#28A745' }]}>
+          <View style={styles.overlay} />
+          <Text style={styles.title}>Únete a nuestros torneos locales</Text>
           <View style={styles.footer}>
-            <Image
-              source={{ uri: 'https://via.placeholder.com/150' }}
-              style={styles.avatar}
-            />
-            <Text style={styles.views}>75K vistas</Text>
+          <Text style={styles.subtitle}>Participa en competencias emocionantes y demuestra tu talento frente a otros jugadores.</Text>
           </View>
-        </View>
+        </ImageBackground>
       </Swiper>
     </View>
   );
@@ -62,24 +54,30 @@ const styles = StyleSheet.create({
     backgroundColor:'#31abbd',
     borderRadius: 20,
     marginHorizontal: 20,
+    position:'relative',
+    height:198,
     padding: 16,
     justifyContent: 'space-between',
     resizeMode: 'cover',
+    overflow: 'hidden'
+
   },
   title: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
+    zIndex: 1,
+  },
+    subtitle: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 4,
+    zIndex: 1,
+    fontWeight:'600'
   },
   footer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
   },
   views: {
     color: 'white',
@@ -89,14 +87,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.5)',
     width: 8,
     height: 8,
+    bottom:-25,
     borderRadius: 4,
     marginHorizontal: 3,
   },
   activeDot: {
-    backgroundColor: 'white',
+    backgroundColor: '#6C5ECF',
     width: 10,
     height: 10,
+    bottom:-25,
     borderRadius: 5,
     marginHorizontal: 3,
+  },
+    overlay: {
+    ...StyleSheet.absoluteFillObject, // Cubre todo el contenedor
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Fondo negro con 50% de opacidad
   },
 });

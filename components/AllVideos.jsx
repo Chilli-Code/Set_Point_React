@@ -20,38 +20,39 @@ export default function AllVideos() {
     const fetchVideos = async () => {
       setLoading(true);
       setTimeout(() => {
-        const fetchedVideos = [
-          {
-            id: '1',
-            title: 'Cómo hacer saltos básicos y aterrizar de forma segura sadsdasdadsadsada',
-            author: 'Andy William',
-            views: '54K',
-            time: '8 min',
-            imgPreview: 'https://images.pexels.com/photos/6203514/pexels-photo-6203514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            avatar: 'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-          },
-          {
-            id: '2',
-            title: 'Prepare for your first skateboard jump',
-            author: 'Gerard Bind',
-            views: '42K',
-            time: '5 min',
-            imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
-            avatar: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            videoUrl: 'https://media.istockphoto.com/id/1479959180/video/ld-blue-female-volleyball-team-striking-a-point-and-celebrating.mp4?s=mp4-640x640-is&k=20&c=C9exPI5XVYxFZgGMVLh_c1BKhfKZiqb88PgqZNLfwn4=',
-          },
-          {
-            id: '3',
-            title: 'Domina los trucos avanzados',
-            author: 'Jane Doe',
-            views: '98K',
-            time: '10 min',
-            imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
-            avatar: 'https://images.pexels.com/photos/1024311/pexels-photo-1024311.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            videoUrl: 'https://media.istockphoto.com/id/1452708598/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=uvjGRvTeFuYIcAuzR-CZXHnYZ3xA1pOt4wWN4e1pBIo=',
-          },
-        ];
+const fetchedVideos = [
+  {
+    id: '1',
+    title: 'Gran Final - Leones Vóley vs. Dragones de la Costa',
+    author: 'Liga Profesional de Vóley',
+    views: '54K',
+    time: '8 min',
+    imgPreview: 'https://images.pexels.com/photos/6203514/pexels-photo-6203514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    avatar: 'https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  },
+  {
+    id: '2',
+    title: 'Semifinal - Águilas del Norte vs. Toros del Pacífico',
+    author: 'Copa Internacional de Vóley',
+    views: '42K',
+    time: '5 min',
+    imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
+    avatar: 'https://images.pexels.com/photos/3370021/pexels-photo-3370021.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+    videoUrl: 'https://media.istockphoto.com/id/1479959180/video/ld-blue-female-volleyball-team-striking-a-point-and-celebrating.mp4?s=mp4-640x640-is&k=20&c=C9exPI5XVYxFZgGMVLh_c1BKhfKZiqb88PgqZNLfwn4=',
+  },
+  {
+    id: '3',
+    title: 'Cuartos de Final - Titanes vs. Jaguares',
+    author: 'Campeonato Nacional de Vóley',
+    views: '98K',
+    time: '10 min',
+    imgPreview: 'https://images.pexels.com/photos/30735264/pexels-photo-30735264.jpeg?auto=compress&cs=tinysrgb&w=600',
+    avatar: 'https://images.pexels.com/photos/1024311/pexels-photo-1024311.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+    videoUrl: 'https://media.istockphoto.com/id/1452708598/video/female-volleyball-player-spiking-the-ball-while-other-team-defending-at-sports-court.mp4?s=mp4-640x640-is&k=20&c=uvjGRvTeFuYIcAuzR-CZXHnYZ3xA1pOt4wWN4e1pBIo=',
+  },
+];
+
         setVideos(fetchedVideos);
         setFilteredVideos(fetchedVideos);
         setLoading(false);
