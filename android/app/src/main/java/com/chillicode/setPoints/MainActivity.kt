@@ -2,7 +2,8 @@ package com.chillicode.setPoints
 
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager // Importa esta clase para usar FLAG_SECURE
+// Importa esta clase para usar FLAG_SECURE (ya no será necesario)
+// import android.view.WindowManager 
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
@@ -18,11 +19,13 @@ class MainActivity : ReactActivity() {
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme)
 
-    // Agrega la bandera FLAG_SECURE para prevenir capturas/grabaciones de pantalla
+    // Elimina o comenta la siguiente sección para permitir capturas/grabaciones de pantalla
+    /*
     window.setFlags(
         WindowManager.LayoutParams.FLAG_SECURE,
         WindowManager.LayoutParams.FLAG_SECURE
     )
+    */
 
     super.onCreate(null)
   }

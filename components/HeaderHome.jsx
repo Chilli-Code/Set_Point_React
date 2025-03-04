@@ -39,7 +39,7 @@ export default function Header() {
       {/* 🔹 Modal para el menú */}
       <Modal transparent={true} animationType="slide" visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
         <TouchableOpacity style={styles.modalContainer} activeOpacity={1} onPress={() => setModalVisible(false)}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent]}>
             <TouchableOpacity
               style={styles.option}
               onPress={() => {
@@ -47,13 +47,13 @@ export default function Header() {
                 navigation.navigate("Settings");
               }}
             >
-              <Icon name="cogs" size={24} color="#6c5ecf" />
-              <Text style={styles.optionText}>Configuración</Text>
+              <Icon name="cogs" size={24} color="#6c5ecf" style={{ marginRight: 10 }} />
+              <Text style={[styles.optionText, {color: theme.text}]}>Configuración</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.option} onPress={() => navigation.replace("Login")}>
-              <Icon name="logout" size={24} color="#6c5ecf" />
-              <Text style={styles.optionText}>Cerrar sesión</Text>
+              <Icon name="logout" size={24} color="#6c5ecf" style={{ marginRight: 10 }} />
+              <Text style={[styles.optionText, {color: theme.text}]}>Cerrar sesión</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
-    marginLeft: 10,
+    paddingVertical: 5,
+    fontWeight: "600",
+    // marginLeft: 20,
   },
 });

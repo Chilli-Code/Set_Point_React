@@ -79,7 +79,7 @@ export default function InfoVideoScreen() {
             <View style={styles.videoDetail}>
               <View style={styles.videoInfo}>
                 <Image source={{ uri: video.avatar }} style={styles.avatar} />
-                <View style={{ paddingRight: 20 }}>
+                <View style={{ paddingRight: 0, paddingLeft: 0}}>
                   <Text style={[styles.videoTitle, {color: theme.text}]}>{video.title}</Text>
                   <Text style={[styles.videoAuthor, {color: theme.text}]}>{video.author}</Text>
                 </View>
@@ -155,21 +155,24 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   videoInfo: {
+    width:'100%%',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
-    marginRight: 20,
+    paddingRight:43,
   },
   avatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 10,
+    marginRight: 8,
   },
   videoTitle: {
+    position:'relative',
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+    // backgroundColor:'green'
   },
   videoAuthor: {
     fontSize: 14,

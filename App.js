@@ -12,9 +12,13 @@ import InfoVideoScreen from './screens/InfoVideo';
 import VideosScreen from './screens/VideosScreen';
 import PerfilScreen from './screens/PerfilScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 import {ThemeProvider} from './context/ThemeContext';
+import OnboardingScreen from './components/OnboardingScreen';
 import { Alert } from 'react-native';
 import * as Notifications from 'expo-notifications';
+
+
 
 const Stack = createStackNavigator();
 Notifications.setNotificationHandler({
@@ -52,9 +56,11 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Videos" component={VideosScreen} />
           <Stack.Screen name="Perfil" component={PerfilScreen} />
+          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
           <Stack.Screen name="InfoVideo" component={InfoVideoScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>

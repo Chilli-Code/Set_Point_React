@@ -9,7 +9,7 @@ export default function PerfilScreen() {
   const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
 
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ProfileWithSkills />
       <ClipsPerfil />
       <Menu />
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#1f1d2b',
+    // backgroundColor: '#1f1d2b',
   },
   title: {
     color: '#fff',

@@ -1,32 +1,82 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet, Animated, Easing } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // 🔹 Importar iconos
 import { Picker } from '@react-native-picker/picker'; // 🔹 Importar Picker
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; // FontAwesome5
+import OnboardingScreen from '../components/OnboardingScreen';
+
+
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
   const [name, setName] = useState('');
+  const [nameUser, setnameUser] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [playerType, setPlayerType] = useState(''); // Estado para el tipo de jugador
   const [password, setPassword] = useState('');
 
+  // Animación del rebote
+  const bounceAnim = new Animated.Value(0);
+
+  useEffect(() => {
+    const bounce = () => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(bounceAnim, {
+            toValue: -20, // Sube 20 píxeles
+            duration: 300, // Duración de la subida
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }),
+          Animated.timing(bounceAnim, {
+            toValue: 0, // Vuelve a la posición original
+            duration: 300, // Duración de la bajada
+            easing: Easing.bounce, // Efecto de rebote
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    };
+
+    bounce();
+  }, []);
+
   const handleRegister = () => {
     console.log(`Nombre: ${name}`);
     console.log(`Apellido: ${lastName}`);
+    console.log(`Nombre Usuario: ${nameUser}`);
     console.log(`Email: ${email}`);
     console.log(`Teléfono: ${phone}`);
     console.log(`Tipo de Jugador: ${playerType}`);
     console.log(`Password: ${password}`);
     alert("Registro exitoso!"); // ⚡ Muestra un alert para probar
+
+    navigation.navigate('Onboarding');
   };
 
   return (
     <ImageBackground source={require('../assets/Fondo_Login.jpg')} style={styles.background}>
       <View style={styles.overlay} />
-        <Text style={styles.formTitle}>Crear Cuenta</Text>
+      <Text style={styles.formTitle}>
+      <Animated.View // Contenedor animado para el ícono
+          style={{
+            transform: [{ translateY: bounceAnim }], // Aplica la animación de traslación vertical
+          }}
+        >
+      <FontAwesome5 name="volleyball-ball" size={30} color="#6C5ECF" />
+          </Animated.View>
+          {' '}Registrate{' '}
+        <Animated.View // Contenedor animado para el ícono
+          style={{
+            transform: [{ translateY: bounceAnim }], // Aplica la animación de traslación vertical
+          }}
+        >
+          <FontAwesome5 name="volleyball-ball" size={30} color="#6b5ecf" />
+        </Animated.View>
+      </Text>
 
       {/* 🔹 Formulario en la parte inferior */}
       <View style={styles.formContainer}>
@@ -37,7 +87,7 @@ export default function RegisterScreen() {
           <Icon name="account" size={24} color="#fff" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
-            placeholder="Nombre Completo"
+            placeholder="Nombre"
             placeholderTextColor="#fff"
             onChangeText={setName}
             value={name}
@@ -54,7 +104,16 @@ export default function RegisterScreen() {
             value={lastName}
           />
         </View>
-
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="user-astronaut" size={24} color="#fff" style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre de Usuario"
+            placeholderTextColor="#fff"
+            onChangeText={setnameUser}
+            value={nameUser}
+          />
+        </View>
         <View style={styles.inputContainer}>
           <Icon name="email" size={24} color="#fff" style={styles.inputIcon} />
           <TextInput
@@ -162,14 +221,14 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: '90%',
     paddingHorizontal: 10,
-    marginBottom: 15,
+    marginBottom: 14,
   },
   inputIcon: {
     padding: 10,
   },
   input: {
     flex: 1,
-    paddingVertical: 15,
+    paddingVertical: 10,
     color: '#fff',
   },
   pickerContainer: {

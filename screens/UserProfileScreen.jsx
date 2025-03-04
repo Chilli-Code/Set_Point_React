@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 import Svg, {
   Defs,
   LinearGradient,
@@ -13,27 +14,49 @@ import Svg, {
 } from "react-native-svg";
 import Icon from "react-native-vector-icons/Feather";
 import { Dimensions } from "react-native";
-import { useTheme } from '../context/ThemeContext';
+import { useRoute, useNavigation } from "@react-navigation/native";
 
+export default function UserProfileScreen({ route }) {
+  const { user } = route.params;
 
+  //   return (
+  //     <View style={styles.container}>
+  //       <Image source={{ uri: user.avatar }} style={styles.avatar} />
+  //       <Text style={styles.name}>{user.name}</Text>
+  //       <Text>@{user.username}</Text>
+  //     </View>
+  //   );
+  // }
+  const navigation = useNavigation();
 
-
-export default function ProfileWithSkills() {
   const { theme, darkMode, toggleTheme } = useTheme(); // ⬅ Ahora usamos el tema
   const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
+  const screenHeight = Dimensions.get("window").height;
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* 🔹 Título estilizado */}
       <View style={[styles.titleContainer, { width: screenWidth * 0.9 }]}>
-  <Text style={styles.title}>Mi Perfil</Text>
-  <TouchableOpacity style={styles.editIcon} onPress={() => console.log("Editar perfil")}>
-    <Icon name="edit" size={24} color="#34bfff" />
-  </TouchableOpacity>
-</View>
+        {/* 🔹 Botón para regresar */}
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Icon name="arrow-left" size={25} color={theme.text} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{user.name}</Text>
+        <TouchableOpacity
+          style={styles.editIcon}
+          onPress={() => console.log("Editar perfil")}
+        >
+          <Icon name="edit" size={24} color="#34bfff" />
+        </TouchableOpacity>
+      </View>
 
-
-      <Svg viewBox="-2 -2 506 815"  width={screenWidth * 0.9} height={screenHeight * 0.7}>
+      <Svg
+        viewBox="-2 -2 506 815"
+        width={screenWidth * 0.9}
+        height={screenHeight * 0.7}
+      >
         <Defs>
           <LinearGradient id="profileGradient" gradientTransform="rotate(90)">
             <Stop offset="5%" stopColor="#60CAFF" />
@@ -62,10 +85,16 @@ const screenHeight = Dimensions.get("window").height;
         {/* 🔹 Foto de perfil */}
         <Mask id="profileMask">
           <Rect fill="black" x="0" y="0" width="145" height="170" />
-          <Polyline fill="white" points="65,170 145,170 145,50 135,40 135,10 125,0 70,0 10,0 0,10 0,160 10,170" />
+          <Polyline
+            fill="white"
+            points="65,170 145,170 145,50 135,40 135,10 125,0 70,0 10,0 0,10 0,160 10,170"
+          />
         </Mask>
         <SvgImage
-          href="https://avatars.githubusercontent.com/u/93390482?v=4"
+          href={
+            user?.avatar ||
+            "https://avatars.githubusercontent.com/u/93390482?v=4"
+          }
           width="150"
           height="170"
           x="-5"
@@ -74,12 +103,24 @@ const screenHeight = Dimensions.get("window").height;
 
         {/* 🔹 Datos del perfil */}
         <G transform="translate(170 118)" fill="#34bfff" fontWeight="bold">
-          <SvgText x="-9" y="0" fontSize="17">Nombre :</SvgText>
-          <SvgText x="-7" y="25" fontSize="20">Jorge</SvgText>
-          <SvgText x="120" y="0" fontSize="17">Edad :</SvgText>
-          <SvgText x="120" y="25" fontSize="20">21</SvgText>
-          <SvgText x="220" y="0" fontSize="17">Rol:</SvgText>
-          <SvgText x="220" y="20" fontSize="20">Jugador</SvgText>
+          <SvgText x="-9" y="0" fontSize="17">
+            Nombre :
+          </SvgText>
+          <SvgText x="-19" y="25" fontSize="20">
+            @{user.username}
+          </SvgText>
+          <SvgText x="120" y="0" fontSize="17">
+            Edad :
+          </SvgText>
+          <SvgText x="120" y="25" fontSize="20">
+            21
+          </SvgText>
+          <SvgText x="220" y="0" fontSize="17">
+            Rol:
+          </SvgText>
+          <SvgText x="220" y="20" fontSize="20">
+            Jugador
+          </SvgText>
         </G>
 
         {/* 🔹 Sección de estadísticas del jugador */}
@@ -110,13 +151,32 @@ const screenHeight = Dimensions.get("window").height;
                 </SvgText>
 
                 {/* 🔹 Barra de fondo */}
-                <Rect x="210" y="20" width="200" height="12" fill={theme.background} rx="5" />
+                <Rect
+                  x="210"
+                  y="20"
+                  width="200"
+                  height="12"
+                  fill={theme.background}
+                  rx="5"
+                />
 
                 {/* 🔹 Barra de progreso */}
-                <Rect x="210" y="20" width={stat.width} height="12" fill="#34bfffeb" rx="5" />
+                <Rect
+                  x="210"
+                  y="20"
+                  width={stat.width}
+                  height="12"
+                  fill="#34bfffeb"
+                  rx="5"
+                />
 
                 {/* 🔹 Valor numérico a la derecha */}
-                <SvgText x={220 + stat.width} y="35" fontSize="16" fill="#34bfff">
+                <SvgText
+                  x={220 + stat.width}
+                  y="35"
+                  fontSize="16"
+                  fill="#34bfff"
+                >
                   {stat.value}
                 </SvgText>
               </G>
@@ -124,18 +184,28 @@ const screenHeight = Dimensions.get("window").height;
           </G>
         </G>
       </Svg>
-
     </View>
   );
 }
-
-// 📌 **Estilos generales**
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "#1f1d2b",
-    alignItems:"center",
     flex: 1,
+    alignItems: "center",
+    // justifyContent: "center",
+    padding: 10,
+    backgroundColor: "#f5f5f5",
   },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -148,13 +218,11 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Alinear en fila
     alignItems: "center", // Centrar verticalmente
     justifyContent: "space-between", // Distribuir elementos en la fila
-    width: "90%", // Ajustar ancho del contenedor
+    width: "100%", // Ajustar ancho del contenedor
     marginTop: 30,
-    marginBottom: 10,
+    marginBottom: 40,
   },
   editIcon: {
-    marginLeft:10,
-    
+    marginLeft: 10,
   },
-
 });

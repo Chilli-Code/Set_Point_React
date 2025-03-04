@@ -25,20 +25,17 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-video",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/favicon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./assets/notificationsound.mp3"
-          ]
-        }
-      ],
-      "expo-font"
-    ],
+"plugins": [
+  "expo-video",
+  [
+    "expo-notifications",
+    {
+      "icon": "./assets/favicon.png", // Icono para las notificaciones (opcional)
+      "color": "#ffffff", // Color del ícono de notificación (opcional)
+      "sounds": ["./assets/notificationsound.mp3"] // Ruta al archivo de sonido
+    }
+  ]
+],
     "extra": {
       "eas": {
         "projectId": "53137ebf-99fb-4457-83bc-3dafdc521f52"

@@ -160,10 +160,10 @@ export default function SettingsScreen() {
 
       {/* 🔹 Modal */}
       <Modal isVisible={isModalVisible} onBackdropPress={() => setIsModalVisible(false)}>
-        <View style={styles.modalContainer}>
+        <View style={[styles.modalContainer, {backgroundColor: theme.background}]}>
           {/* Animación Lottie */}
           <LottieView
-            source={require("../assets/Support2.json")} // Reemplaza con tu archivo Lottie
+            source={require("../assets/welcome-animation.json")} // Reemplaza con tu archivo Lottie
             autoPlay
             loop
             style={styles.lottieAnimation}
@@ -174,7 +174,7 @@ export default function SettingsScreen() {
 
           {/* Botón de contacto */}
           <TouchableOpacity style={styles.whatsappButton} onPress={handleWhatsAppContact}>
-            <Icon name="message-circle" size={22} color="#fff" />
+            <FontAwesome5 name="whatsapp" size={22} color="#fff" />
             <Text style={styles.whatsappButtonText}>Contactar por WhatsApp</Text>
           </TouchableOpacity>
         </View>
