@@ -14,6 +14,10 @@ const lightTheme = {
   inputColor: "#ECECEC",
   RelatedColor: "#ECECEC",
   textBox: "#717790",
+
+  // Colore de Perfil
+  lineaSvg:'#000',
+  textSvg:'#000'
 };
 
 const darkTheme = {
@@ -29,6 +33,9 @@ const darkTheme = {
   RelatedColor: "#252936",
   textBox: "#fff",
 
+  // Colore de Perfil
+  lineaSvg:'#6C5ECF',
+  textSvg:'#34bfff'
 };
 
 // 🔹 Crear el contexto

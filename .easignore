@@ -1,0 +1,26 @@
+# Ignorar archivos generados por el sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar directorios de caché
+node_modules/
+.expo/
+.expo-shared/
+
+# Ignorar archivos de desarrollo
+.git/
+.gitignore
+.env
+.env.local
+
+# Ignorar archivos multimedia o grandes
+assets/videos/
+assets/large-images/
+
+# Ignorar archivos de pruebas
+__tests__/
+coverage/
+
+# Ignorar logs y otros archivos temporales
+*.log
+*.tmp

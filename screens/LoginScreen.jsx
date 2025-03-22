@@ -79,7 +79,7 @@ export default function LoginScreen() {
       ) : (
         <>
           <Animated.View style={[styles.titleContainer, { transform: [{ translateY: titleAnimation }] }]}>
-            <Text style={styles.title}>Set Points</Text>
+            {/* <Text style={styles.title}>Set Points</Text> */}
           </Animated.View>
 
           {/* 🔹 Formulario de inicio de sesión */}

@@ -16,6 +16,7 @@ import Material from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "../context/ThemeContext";
 import SearchBar from "./SearchBar";
 import LottieView from 'lottie-react-native';
+import ProfileCard from "./ProfileCard";
 
 
 export default function AllVideos() {
@@ -24,7 +25,7 @@ export default function AllVideos() {
 
   // Datos simulados
   const [videos, setVideos] = useState([]); // Partidos
-  const [users, setUsers] = useState([]); // Perfiles
+  
   const [filteredData, setFilteredData] = useState([]); // Resultados filtrados
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -80,27 +81,7 @@ export default function AllVideos() {
             },
         ];
 
-        const fetchedUsers = [
-          {
-            id: "u1",
-            name: "Pablo Pérez",
-            username: "pabloperez",
-            avatar:
-              "https://media.istockphoto.com/id/472117493/es/foto/retrato-de-joven-jugador-de-v%C3%B3leibol.jpg?s=2048x2048&w=is&k=20&c=2q8_nk83Rzf6KcYIixYZKwXHedIEiMG7ihoKwAa10Is=",
-            type: "user",
-          },
-          {
-            id: "u2",
-            name: "María López",
-            username: "marialopez",
-            avatar:
-              "https://media.istockphoto.com/id/1446052358/es/foto/listo-para-jugar-netball.jpg?s=2048x2048&w=is&k=20&c=2TYjsxMLA2Kb5iXLn2PNl8EfX2VO_z99_HB7JxrR18k=",
-            type: "user",
-          },
-        ];
-
         setVideos(fetchedVideos);
-        setUsers(fetchedUsers);
         setFilteredData(fetchedVideos); // Por defecto, muestra partidos
         setLoading(false);
       }, 1500);
@@ -110,11 +91,12 @@ export default function AllVideos() {
   }, []);
 
   // Función para filtrar datos
+  // Función para filtrar datos
   const handleSearch = (text) => {
     setSearch(text);
 
     if (text.trim() === "") {
-      setFilteredData(searchType === "match" ? videos : users);
+      setFilteredData(searchType === "match" ? videos : []);
     } else {
       const filtered =
         searchType === "match"
@@ -123,11 +105,7 @@ export default function AllVideos() {
                 video.title.toLowerCase().includes(text.toLowerCase()) ||
                 video.author.toLowerCase().includes(text.toLowerCase())
             )
-          : users.filter(
-              (user) =>
-                user.name.toLowerCase().includes(text.toLowerCase()) ||
-                user.username.toLowerCase().includes(text.toLowerCase())
-            );
+          : [];
 
       setFilteredData(filtered);
     }
@@ -136,17 +114,10 @@ export default function AllVideos() {
   // Cambiar el tipo de búsqueda
   const changeSearchType = (type) => {
     setSearchType(type);
-
-    // Limpiar el texto de búsqueda al cambiar el tipo
     setSearch("");
-
-    // Restablecer los datos según el tipo seleccionado
-    if (type === "match") {
-      setFilteredData(videos);
-    } else {
-      setFilteredData(users);
-    }
+    setFilteredData(type === "match" ? videos : []);
   };
+
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -207,7 +178,7 @@ export default function AllVideos() {
           color={theme.text}
           style={{ marginTop: 20 }}
         />
-      ) : (
+      ) : searchType === 'match' ? (
         <FlatList
           data={filteredData}
           keyExtractor={(item) => item.id}
@@ -222,9 +193,7 @@ export default function AllVideos() {
                 style={{ width: 200, height: 200 }}
               />
               <Text style={[styles.emptyText, {color: theme.text}]}>
-                {searchType === "match"
-                  ? "No se encontraron partidos"
-                  : "Perfil no encontrado."}
+              No se encontraron partidos
               </Text>
             </View>
           }
@@ -278,6 +247,8 @@ export default function AllVideos() {
             </View>
           )}
         />
+      ) : (
+        <ProfileCard navigation={navigation} search={search} />
       )}
     </View>
   );
